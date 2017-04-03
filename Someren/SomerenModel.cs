@@ -61,6 +61,30 @@ namespace Someren
 
         }
 
+        // Made By: Davut
+        // de class waarvan een drankje bestaat
+        public class DrankVoorraad
+        {
+            string naam;
+            int voorraad;
+
+            public DrankVoorraad(string naam, int voorraad)
+            {
+                this.naam = naam;
+                this.voorraad = voorraad;
+            }
+
+            public string getNaam()
+            {
+                return naam;
+            }
+
+            public int getvoorraad()
+            {
+                return voorraad;
+            }
+        }
+
         public class StudentList
         {
             List<SomerenModel.Student> sl = new List<SomerenModel.Student>();

@@ -42,6 +42,45 @@ namespace Someren
             return c;
         }
 
+        // Made By: Davut
+        // laat de drankjes zien in de vorm van een tabel
+        // en of er genoeg voorraad is per drankje
+        public static Control showDrankVoorraad()
+        {
+            List<SomerenModel.DrankVoorraad> dl = new List<SomerenModel.DrankVoorraad>();
+            SomerenDB somerendb = new SomerenDB();
+
+            // hier halen we de drankjes op van de database
+            dl = somerendb.DB_GetDrankVoorraad();
+
+            ListView c = new ListView();
+            c.Height = 1000;
+            c.Width = 500;
+            c.View = View.Details;
+            c.Columns.Add("Dranken", 200, HorizontalAlignment.Left);
+            c.Columns.Add("Voorraad", 200, HorizontalAlignment.Left);
+
+            // hier vullen we de lijst/tabel met informatie
+            foreach (SomerenModel.DrankVoorraad voorraad in dl)
+            {
+                string naam = voorraad.getNaam();
+                ListViewItem li = new ListViewItem(naam);
+                if (voorraad.getvoorraad() < 10)
+                {
+                    string aantalVoorraad = "Voorraad bijna op!";
+                    li.SubItems.Add(aantalVoorraad, System.Drawing.Color.Red, System.Drawing.Color.Red, null);
+                }
+                else
+                {
+                    string aantalVoorraad = "Voldoende voorraad.";
+                    li.SubItems.Add(aantalVoorraad, System.Drawing.Color.Green, System.Drawing.Color.Green, null);
+                }
+                
+                c.Items.Add(li);
+            }
+            return c;
+        }
+
         public static Control addUILabel(string text)
         {
             Label l = new Label();
