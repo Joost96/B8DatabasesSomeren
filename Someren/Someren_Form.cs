@@ -140,5 +140,12 @@ namespace Someren
         {
 
         }
+
+        private void toonDocentenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.panel1.Controls.Clear();
+            this.groupBox1.Text = "Docenten";
+            this.panel1.Controls.Add(SomerenUI.showDocenten());
+        }
     }
 }
