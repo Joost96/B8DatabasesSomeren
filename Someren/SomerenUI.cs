@@ -12,29 +12,33 @@ namespace Someren
         public static Control showStudents()
         {
             List<SomerenModel.Student> sl = new List<SomerenModel.Student>();
-            //SomerenDB.
-            SomerenModel.Student s1 = new SomerenModel.Student();
-            s1.setNaam("Henk");
-            SomerenModel.Student s2 = new SomerenModel.Student();
-            s2.setNaam("Piet");
-            SomerenModel.Student s3 = new SomerenModel.Student();
-            s3.setNaam("Amber");
+            SomerenDB somerendb = new SomerenDB();
+            sl = somerendb.DB_gettudents();
 
-            sl.Add(s1);
-            sl.Add(s2);
-            sl.Add(s3);
-
-            int aantal = sl.Count();
             ListView c = new ListView();
             c.Height = 1000;
-            ListViewItem li = new ListViewItem();
-            li.SubItems.Add(s1.getNaam());
-            li.SubItems.Add(s1.getId().ToString());
-            c.Items.Add(s1.getNaam());
-            c.Items.Add(s2.getNaam());
-            c.Items.Add(s3.getNaam());
-            c.Items.Add(li);
+            foreach (SomerenModel.Student student in sl)
+            {
+                ListViewItem li = new ListViewItem(student.getNaam());
+                li.SubItems.Add(student.getId().ToString());
+                c.Items.Add(li);
+            }
+            return c;
+        }
+        public static Control showDocenten()
+        {
+            List<SomerenModel.Docent> dl = new List<SomerenModel.Docent>();
+            SomerenDB somerendb = new SomerenDB();
+            dl = somerendb.DB_getdocenten();
 
+            ListView c = new ListView();
+            c.Height = 1000;
+            foreach (SomerenModel.Docent docent in dl)
+            {
+                ListViewItem li = new ListViewItem(docent.getNaam());
+                li.SubItems.Add(docent.getId().ToString());
+                c.Items.Add(li);
+            }
             return c;
         }
 

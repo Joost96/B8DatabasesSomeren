@@ -13,6 +13,11 @@ namespace Someren
             int id;
             string naam;
 
+            public Student(int id,string naam)
+            {
+                this.id = id;
+                this.naam = naam;
+            }
             public void setNaam(string naamStudent)
             {
                 naam = naamStudent;
@@ -28,6 +33,32 @@ namespace Someren
                 return id;
             }
             
+        }
+        public class Docent
+        {
+            int id;
+            string naam;
+
+            public Docent(int id, string naam)
+            {
+                this.id = id;
+                this.naam = naam;
+            }
+            public void setNaam(string naamStudent)
+            {
+                naam = naamStudent;
+            }
+
+            public string getNaam()
+            {
+                return naam;
+            }
+
+            public int getId()
+            {
+                return id;
+            }
+
         }
 
         public class StudentList

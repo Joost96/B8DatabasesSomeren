@@ -14,7 +14,7 @@ namespace Someren
             string host = "spartainholland.database.windows.net";
             string db = "someren_inholland_db";
             string user = "spartainholland";
-            string password = "Sparta1";
+            string password = "Spartalogin1";
             //string port = "3306";
 
             try
@@ -49,10 +49,10 @@ namespace Someren
             SqlConnection connection = openConnectieDB();
             List<SomerenModel.Student> studenten_lijst = new List<SomerenModel.Student>();
 
-            connection.Open();
             StringBuilder sb = new StringBuilder();
             // schrijf hier een query om te zorgen dat er een lijst met studenten wordt getoond
-            sb.Append("#query");
+            sb.Append("SELECT id,naam ");
+            sb.Append("FROM B8_Student");
 
             /* VOORBEELDQUERY */
             //sb.Append("SELECT TOP 20 pc.Name as CategoryName, p.name as ProductName ");
@@ -64,16 +64,44 @@ namespace Someren
             String sql = sb.ToString();
 
             SqlCommand command = new SqlCommand(sql, connection);
+            command.Prepare();
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                SomerenModel.Student student = new SomerenModel.Student();
+                int id = reader.GetInt32(0);
+                string naam = reader.GetString(1);
+                SomerenModel.Student student = new SomerenModel.Student(id,naam);
                 studenten_lijst.Add(student);
             }
-
+            sluitConnectieDB(connection);
             return studenten_lijst;
         }
 
-       // public void 
+        public List<SomerenModel.Docent> DB_getdocenten()
+        {
+            SqlConnection connection = openConnectieDB();
+            List<SomerenModel.Docent> docent_lijst = new List<SomerenModel.Docent>();
+
+            StringBuilder sb = new StringBuilder();
+            // schrijf hier een query om te zorgen dat er een lijst met studenten wordt getoond
+            sb.Append("SELECT id,naam ");
+            sb.Append("FROM B8_Docent");
+
+            String sql = sb.ToString();
+
+            SqlCommand command = new SqlCommand(sql, connection);
+            command.Prepare();
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                int id = reader.GetInt32(0);
+                string naam = reader.GetString(1);
+                SomerenModel.Docent docent = new SomerenModel.Docent(id, naam);
+                docent_lijst.Add(docent);
+            }
+            sluitConnectieDB(connection);
+            return docent_lijst;
+        }
+        // public void 
     }
 }

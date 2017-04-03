@@ -37,6 +37,8 @@
             this.menuAfsluiten = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.docentenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toonDocentenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,8 +60,6 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toonDocentenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.docentenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -128,6 +128,21 @@
             this.toolStripMenuItem6.Text = "Toon Studenten";
             this.toolStripMenuItem6.Click += new System.EventHandler(this.toolStripMenuItem6_Click);
             // 
+            // docentenToolStripMenuItem
+            // 
+            this.docentenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toonDocentenToolStripMenuItem});
+            this.docentenToolStripMenuItem.Name = "docentenToolStripMenuItem";
+            this.docentenToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
+            this.docentenToolStripMenuItem.Text = "Docenten";
+            // 
+            // toonDocentenToolStripMenuItem
+            // 
+            this.toonDocentenToolStripMenuItem.Name = "toonDocentenToolStripMenuItem";
+            this.toonDocentenToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.toonDocentenToolStripMenuItem.Text = "Toon Docenten";
+            this.toonDocentenToolStripMenuItem.Click += new System.EventHandler(this.toonDocentenToolStripMenuItem_Click);
+            // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -143,19 +158,19 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(151, 22);
             this.toolStripMenuItem2.Text = "Kamers";
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(151, 22);
             this.toolStripMenuItem3.Text = "Kamerindeling";
             // 
             // zoekKamersToolStripMenuItem
             // 
             this.zoekKamersToolStripMenuItem.Name = "zoekKamersToolStripMenuItem";
-            this.zoekKamersToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.zoekKamersToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.zoekKamersToolStripMenuItem.Text = "Zoek Kamers";
             // 
             // bardienstToolStripMenuItem
@@ -291,20 +306,6 @@
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
             this.toolStripStatusLabel2.Size = new System.Drawing.Size(10, 17);
             this.toolStripStatusLabel2.Text = " ";
-            // 
-            // toonDocentenToolStripMenuItem
-            // 
-            this.toonDocentenToolStripMenuItem.Name = "toonDocentenToolStripMenuItem";
-            this.toonDocentenToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.toonDocentenToolStripMenuItem.Text = "Toon Docenten";
-            // 
-            // docentenToolStripMenuItem
-            // 
-            this.docentenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toonDocentenToolStripMenuItem});
-            this.docentenToolStripMenuItem.Name = "docentenToolStripMenuItem";
-            this.docentenToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
-            this.docentenToolStripMenuItem.Text = "Docenten";
             // 
             // Someren_Form
             // 
