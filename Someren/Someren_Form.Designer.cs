@@ -201,6 +201,7 @@
             this.omzetrapportageToolStripMenuItem.Name = "omzetrapportageToolStripMenuItem";
             this.omzetrapportageToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.omzetrapportageToolStripMenuItem.Text = "Omzetrapportage";
+            this.omzetrapportageToolStripMenuItem.Click += new System.EventHandler(this.omzetrapportageToolStripMenuItem_Click);
             // 
             // activiteitenToolStripMenuItem
             // 

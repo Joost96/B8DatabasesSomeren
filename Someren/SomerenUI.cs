@@ -75,10 +75,23 @@ namespace Someren
                     string aantalVoorraad = "Voldoende voorraad.";
                     li.SubItems.Add(aantalVoorraad, System.Drawing.Color.Green, System.Drawing.Color.Green, null);
                 }
-                
+
                 c.Items.Add(li);
             }
             return c;
+        }
+
+        //Door Joost
+        public static void getOmzetrapportage(ref Label label, DateTime from, DateTime to)
+        {
+            SomerenDB somerendb = new SomerenDB();
+            int aantalKlanten = somerendb.aantalKlanten(from, to);
+            int afzet = somerendb.afzet(from, to);
+            double omzet = somerendb.omzet(from, to);
+            label.Text = String.Format(
+                "aantal klanten : {0}\n" +
+                "afzet : {1}\n" +
+                "omzet: {2:C2}", aantalKlanten, afzet, omzet);
         }
 
         public static Control addUILabel(string text)
@@ -87,7 +100,5 @@ namespace Someren
             l.Text = text;
             return l;
         }
-        
-
     }
 }

@@ -12,7 +12,7 @@ namespace Someren
 {
     public partial class Someren_Form : Form
     {
-       
+
         private static Someren_Form instance;
 
         public Someren_Form() { InitializeComponent(); }
@@ -43,7 +43,7 @@ namespace Someren
         private void showDashboard()
         {
             panel1.Controls.Clear();
-            
+
             groupBox1.Text = "TODO LIJST";
             Label l = new Label();
             l.Height = 500;
@@ -62,7 +62,7 @@ namespace Someren
             {
                 Application.Exit();
             }
-           
+
         }
 
         private void toolStripMenuItem9_Click(object sender, EventArgs e)
@@ -72,15 +72,15 @@ namespace Someren
 
         private void overSomerenAppToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
-            
+
+
             panel1.Controls.Clear();
 
             groupBox1.Text = "TODO LIJST";
             Label l = new Label();
             l.Height = 500;
             l.Text = "Deze applicatie is ontwikkeld voor 1.3 Project Databases, opleiding Informatica, Hogeschool Inholland Haarlem";
-            
+
             panel1.Controls.Add(l);
         }
 
@@ -114,7 +114,7 @@ namespace Someren
             this.panel1.Controls.Clear();
             this.groupBox1.Text = "Studenten";
             this.panel1.Controls.Add(SomerenUI.showStudents());
-            
+
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -154,6 +154,32 @@ namespace Someren
             this.panel1.Controls.Clear();
             this.groupBox1.Text = "DrankVoorraad";
             this.panel1.Controls.Add(SomerenUI.showDrankVoorraad());
+        }
+
+        //Door Joost
+        private void omzetrapportageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.panel1.Controls.Clear();
+            this.groupBox1.Text = "Omzetrapportage";
+
+            MonthCalendar monthCalendar = new MonthCalendar();
+
+            monthCalendar.MaxDate = DateTime.Now;
+            monthCalendar.MaxSelectionCount = 31;
+            monthCalendar.ShowWeekNumbers = true;
+            monthCalendar.DateSelected += new DateRangeEventHandler(this.monthCalendar_DateSelected);
+            this.panel1.Controls.Add(monthCalendar);
+            this.panel1.Controls.Add(infolabel);
+        }
+        private Label infolabel = new Label();
+        //Door Joost
+        private void monthCalendar_DateSelected(object sender, DateRangeEventArgs e)
+        {
+            //Text = "Start = " + e.Start.ToShortDateString() +
+            //    " : End = " + e.End.ToShortDateString();
+            SomerenUI.getOmzetrapportage(ref infolabel, e.Start, e.End);
+            infolabel.AutoSize = true;
+            infolabel.Location = new Point(0, 200);
         }
     }
 }

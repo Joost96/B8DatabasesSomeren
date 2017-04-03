@@ -13,7 +13,7 @@ namespace Someren
             int id;
             string naam;
 
-            public Student(int id,string naam)
+            public Student(int id, string naam)
             {
                 this.id = id;
                 this.naam = naam;
@@ -32,7 +32,7 @@ namespace Someren
             {
                 return id;
             }
-            
+
         }
         public class Docent
         {
@@ -88,8 +88,9 @@ namespace Someren
         public class StudentList
         {
             List<SomerenModel.Student> sl = new List<SomerenModel.Student>();
-            
-            public void addList(SomerenModel.Student s) {
+
+            public void addList(SomerenModel.Student s)
+            {
                 sl.Add(s);
             }
 

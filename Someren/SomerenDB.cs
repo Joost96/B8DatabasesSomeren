@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 namespace Someren
 {
     class SomerenDB
-    {  
+    {
         private SqlConnection openConnectieDB()
         {
             string host = "spartainholland.database.windows.net";
@@ -26,7 +26,7 @@ namespace Someren
                 builder.InitialCatalog = db;
 
                 SqlConnection connection = new SqlConnection(builder.ConnectionString);
-                
+
                 connection.Open();
                 return connection;
 
@@ -36,7 +36,7 @@ namespace Someren
                 SqlConnection connection = null;
                 Console.WriteLine(e.ToString());
                 return connection;
-            }            
+            }
         }
 
         private void sluitConnectieDB(SqlConnection connection)
@@ -70,7 +70,7 @@ namespace Someren
             {
                 int id = reader.GetInt32(0);
                 string naam = reader.GetString(1);
-                SomerenModel.Student student = new SomerenModel.Student(id,naam);
+                SomerenModel.Student student = new SomerenModel.Student(id, naam);
                 studenten_lijst.Add(student);
             }
             sluitConnectieDB(connection);
@@ -137,6 +137,107 @@ namespace Someren
 
             // de gevulde list wordt gereturnt
             return drankVoorraad_lijst;
-        } 
+        }
+
+        //Door Joost
+        public int aantalKlanten(DateTime from, DateTime to)
+        {
+            SqlConnection connection = openConnectieDB();
+            int result = 0;
+
+            StringBuilder sb = new StringBuilder();
+            // schrijf hier een query om te zorgen dat er een lijst met studenten wordt getoond
+            sb.Append("SELECT COUNT(DISTINCT student) ");
+            sb.Append("FROM B8_Verkopen ");
+            sb.Append("WHERE datum > @dfrom AND datum < @dto");
+
+            String sql = sb.ToString();
+
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            SqlParameter dfrom = new SqlParameter("@dfrom", System.Data.SqlDbType.DateTime);
+            SqlParameter dto = new SqlParameter("@dto", System.Data.SqlDbType.DateTime);
+            dfrom.Value = from;
+            dto.Value = to;
+            command.Parameters.Add(dfrom);
+            command.Parameters.Add(dto);
+
+            command.Prepare();
+            result = (int)command.ExecuteScalar();
+
+            sluitConnectieDB(connection);
+            return result;
+        }
+
+        //Door Joost
+        public int afzet(DateTime from, DateTime to)
+        {
+            SqlConnection connection = openConnectieDB();
+            int result = 0;
+
+            StringBuilder sb = new StringBuilder();
+            // schrijf hier een query om te zorgen dat er een lijst met studenten wordt getoond
+            sb.Append("SELECT SUM(aantal) AS aantal ");
+            sb.Append("FROM B8_Verkopen ");
+            sb.Append("WHERE datum > @dfrom AND datum < @dto");
+
+            String sql = sb.ToString();
+
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            SqlParameter dfrom = new SqlParameter("@dfrom", System.Data.SqlDbType.DateTime);
+            SqlParameter dto = new SqlParameter("@dto", System.Data.SqlDbType.DateTime);
+            dfrom.Value = from;
+            dto.Value = to;
+            command.Parameters.Add(dfrom);
+            command.Parameters.Add(dto);
+
+            command.Prepare();
+            SqlDataReader reader = command.ExecuteReader();
+            if (reader.Read())
+            {
+                if (!reader.IsDBNull(0))
+                    result = reader.GetInt32(0);
+            }
+
+            sluitConnectieDB(connection);
+            return result;
+        }
+
+        //Door Joost
+        public double omzet(DateTime from, DateTime to)
+        {
+            SqlConnection connection = openConnectieDB();
+            double result = 0;
+
+            StringBuilder sb = new StringBuilder();
+            // schrijf hier een query om te zorgen dat er een lijst met studenten wordt getoond
+            sb.Append("SELECT SUM(vo.prijs * CAST(ve.aantal AS DECIMAL(7,2))) ");
+            sb.Append("FROM B8_Verkopen ve ");
+            sb.Append("JOIN Voorraad vo ON ve.drankId = vo.drankId ");
+            sb.Append("WHERE datum > @dfrom AND datum < @dto");
+
+            String sql = sb.ToString();
+
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            SqlParameter dfrom = new SqlParameter("@dfrom", System.Data.SqlDbType.DateTime);
+            SqlParameter dto = new SqlParameter("@dto", System.Data.SqlDbType.DateTime);
+            dfrom.Value = from;
+            dto.Value = to;
+            command.Parameters.Add(dfrom);
+            command.Parameters.Add(dto);
+
+            command.Prepare();
+            SqlDataReader reader = command.ExecuteReader();
+            if (reader.Read())
+            {
+                if (!reader.IsDBNull(0))
+                    result = (double)reader.GetDecimal(0);
+            }
+
+            sluitConnectieDB(connection);
+            return result;
+        }
     }
 }
