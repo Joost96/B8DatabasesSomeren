@@ -9,7 +9,7 @@ namespace Someren
 {
     public static class SomerenUI
     {
-        public static Control showStudents()
+        public static ListView showStudents()
         {
             List<SomerenModel.Student> sl = new List<SomerenModel.Student>();
             SomerenDB somerendb = new SomerenDB();
@@ -17,10 +17,16 @@ namespace Someren
 
             ListView c = new ListView();
             c.Height = 1000;
+            c.Width = 80;
+            c.View = View.Details;
+            c.Columns.Add("Studenten", 80, HorizontalAlignment.Left);
+            
+
             foreach (SomerenModel.Student student in sl)
             {
                 ListViewItem li = new ListViewItem(student.getNaam());
-                li.SubItems.Add(student.getId().ToString());
+                li.Tag = student;
+               //// li.SubItems.Add(student.getId().ToString());
                 c.Items.Add(li);
             }
             return c;
@@ -45,7 +51,7 @@ namespace Someren
         // Made By: Davut
         // laat de drankjes zien in de vorm van een tabel
         // en of er genoeg voorraad is per drankje
-        public static Control showDrankVoorraad()
+        public static ListView showDrankVoorraad()
         {
             List<SomerenModel.DrankVoorraad> dl = new List<SomerenModel.DrankVoorraad>();
             SomerenDB somerendb = new SomerenDB();
@@ -55,9 +61,9 @@ namespace Someren
 
             ListView c = new ListView();
             c.Height = 1000;
-            c.Width = 500;
+            c.Width = 400;
             c.View = View.Details;
-            c.Columns.Add("Dranken", 200, HorizontalAlignment.Left);
+            c.Columns.Add("Dranken", 100, HorizontalAlignment.Left);
             c.Columns.Add("Voorraad", 200, HorizontalAlignment.Left);
 
             // hier vullen we de lijst/tabel met informatie
@@ -65,6 +71,8 @@ namespace Someren
             {
                 string naam = voorraad.getNaam();
                 ListViewItem li = new ListViewItem(naam);
+                li.Tag = voorraad;
+
                 if (voorraad.getvoorraad() < 10)
                 {
                     string aantalVoorraad = "Voorraad bijna op!";

@@ -113,7 +113,7 @@ namespace Someren
 
             StringBuilder sb = new StringBuilder();
             // de query die zoekt welke drankjes er getoont moet worden
-            sb.Append("SELECT naam, voorraad ");
+            sb.Append("SELECT naam, voorraad, drankId ");
             sb.Append("FROM dbo.B8_Voorraad ");
             sb.Append("WHERE voorraad > 1 AND prijs > 1.00 AND naam <> 'Water' AND naam <> 'Sinas' AND naam <> 'Kersensap' ");
             sb.Append("ORDER BY voorraad, prijs, aantalVerkocht");
@@ -130,7 +130,8 @@ namespace Someren
             {
                 string naam = reader.GetString(0);
                 int voorraad = reader.GetInt32(1);
-                SomerenModel.DrankVoorraad drankVoorraad = new SomerenModel.DrankVoorraad(naam, voorraad);
+                int drankId = reader.GetInt32(2);
+                SomerenModel.DrankVoorraad drankVoorraad = new SomerenModel.DrankVoorraad(drankId, naam, voorraad);
                 drankVoorraad_lijst.Add(drankVoorraad);
             }
             sluitConnectieDB(connection);
@@ -239,5 +240,42 @@ namespace Someren
             sluitConnectieDB(connection);
             return result;
         }
+
+        public void bestel(SomerenModel.Student student, SomerenModel.DrankVoorraad voorraad)
+        {
+            SqlConnection connection = openConnectieDB();
+
+            StringBuilder sb = new StringBuilder();
+            // schrijf hier een query om te zorgen dat er een lijst met studenten wordt getoond
+            sb.Append("INSERT INTO [dbo].[B8_Verkopen] ([student] ,[datum] ,[drankId] ,[aantal])");
+            sb.Append(" VALUES (@student, @datum, @drankId, @aantal)");
+         
+            String sql = sb.ToString();
+
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            SqlParameter studentParam = new SqlParameter("@student", System.Data.SqlDbType.Int);
+            SqlParameter datum = new SqlParameter("@datum", System.Data.SqlDbType.DateTime);
+            SqlParameter drankId = new SqlParameter("@drankId", System.Data.SqlDbType.Int);
+            SqlParameter aantal = new SqlParameter("@aantal", System.Data.SqlDbType.Int);
+
+            studentParam.Value = student.getId();
+            datum.Value = DateTime.Now;
+            drankId.Value = voorraad.getId();
+            aantal.Value = 1;
+
+            command.Parameters.Add(studentParam);
+            command.Parameters.Add(datum);
+            command.Parameters.Add(drankId);
+            command.Parameters.Add(aantal);
+
+
+
+            command.Prepare();
+            command.ExecuteNonQuery();
+
+            sluitConnectieDB(connection);
+        }
+    
     }
 }

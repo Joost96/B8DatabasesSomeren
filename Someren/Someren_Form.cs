@@ -181,5 +181,58 @@ namespace Someren
             infolabel.AutoSize = true;
             infolabel.Location = new Point(0, 200);
         }
+
+        private ListView studentenList;
+
+        private ListView drankenList;
+
+        private void kassaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.panel1.Controls.Clear();
+            this.groupBox1.Text = "Studenten";
+            studentenList = SomerenUI.showStudents();
+
+            drankenList = SomerenUI.showDrankVoorraad();
+
+            drankenList.Location = new Point(85, 0);
+
+            studentenList.HideSelection = false;
+            studentenList.FullRowSelect = true;
+            drankenList.HideSelection = false;
+            drankenList.FullRowSelect = true;
+
+            this.panel1.Controls.Add(studentenList);
+            this.panel1.Controls.Add(drankenList);
+            
+
+            Button afrekenen = new Button();
+            afrekenen.Text = "Afrekenen";
+            this.panel1.Controls.Add(afrekenen);
+
+            afrekenen.Location = new Point(490, 200);
+
+
+            afrekenen.Click += afrekenenEvent;
+
+
+        }
+
+        private void afrekenenEvent(object sender, EventArgs e)
+        {
+            foreach (ListViewItem sitem in studentenList.SelectedItems)
+            {
+                SomerenModel.Student student = (SomerenModel.Student)sitem.Tag;
+
+                foreach (ListViewItem vitem in drankenList.SelectedItems)
+                {
+                    SomerenModel.DrankVoorraad voorraad = (SomerenModel.DrankVoorraad)vitem.Tag;
+                    SomerenDB somerenDB = new SomerenDB();
+
+                    somerenDB.bestel(student, voorraad);
+
+                }
+            }
+        }
+
     }
 }

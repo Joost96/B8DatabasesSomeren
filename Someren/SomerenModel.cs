@@ -67,11 +67,14 @@ namespace Someren
         {
             string naam;
             int voorraad;
+            int id;
 
-            public DrankVoorraad(string naam, int voorraad)
+            public DrankVoorraad(int id, string naam, int voorraad)
             {
+
                 this.naam = naam;
                 this.voorraad = voorraad;
+                this.id = id;
             }
 
             public string getNaam()
@@ -82,6 +85,11 @@ namespace Someren
             public int getvoorraad()
             {
                 return voorraad;
+            }
+
+            public int getId()
+            {
+                return id;
             }
         }
 
