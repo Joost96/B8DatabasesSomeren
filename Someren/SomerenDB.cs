@@ -240,13 +240,13 @@ namespace Someren
             sluitConnectieDB(connection);
             return result;
         }
-
+        //Door Juan
         public void bestel(SomerenModel.Student student, SomerenModel.DrankVoorraad voorraad)
         {
             SqlConnection connection = openConnectieDB();
 
             StringBuilder sb = new StringBuilder();
-            // schrijf hier een query om te zorgen dat er een lijst met studenten wordt getoond
+           
             sb.Append("INSERT INTO [dbo].[B8_Verkopen] ([student] ,[datum] ,[drankId] ,[aantal])");
             sb.Append(" VALUES (@student, @datum, @drankId, @aantal)");
          
@@ -268,8 +268,6 @@ namespace Someren
             command.Parameters.Add(datum);
             command.Parameters.Add(drankId);
             command.Parameters.Add(aantal);
-
-
 
             command.Prepare();
             command.ExecuteNonQuery();

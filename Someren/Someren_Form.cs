@@ -186,6 +186,7 @@ namespace Someren
 
         private ListView drankenList;
 
+        //Door Juan
         private void kassaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.panel1.Controls.Clear();
@@ -198,6 +199,7 @@ namespace Someren
 
             studentenList.HideSelection = false;
             studentenList.FullRowSelect = true;
+
             drankenList.HideSelection = false;
             drankenList.FullRowSelect = true;
 
@@ -211,10 +213,7 @@ namespace Someren
 
             afrekenen.Location = new Point(490, 200);
 
-
             afrekenen.Click += afrekenenEvent;
-
-
         }
 
         private void afrekenenEvent(object sender, EventArgs e)
@@ -226,8 +225,8 @@ namespace Someren
                 foreach (ListViewItem vitem in drankenList.SelectedItems)
                 {
                     SomerenModel.DrankVoorraad voorraad = (SomerenModel.DrankVoorraad)vitem.Tag;
-                    SomerenDB somerenDB = new SomerenDB();
 
+                    SomerenDB somerenDB = new SomerenDB();
                     somerenDB.bestel(student, voorraad);
 
                 }
