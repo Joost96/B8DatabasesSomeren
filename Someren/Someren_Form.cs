@@ -291,6 +291,13 @@ namespace Someren
         public void BegeleiderDeleteEvent(object sender, EventArgs e)
         {
             SomerenDB db = new SomerenDB();
+
+            // een waarschuwings popup toegevoegd
+            DialogResult dialogResult = MessageBox.Show("Weet u zeker dat u deze begeleider wilt verwijderen??", "Verwijderen", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
             db.BegeleiderDelete(txt_id.Text);
             begeleidersToolStripMenuItem.PerformClick();
         }

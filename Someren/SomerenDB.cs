@@ -329,14 +329,14 @@ namespace Someren
             SqlCommand command = new SqlCommand(sql, connection);
 
             SqlParameter idParam = new SqlParameter("@id", System.Data.SqlDbType.Int);
-
-            idParam.Value = Int32.Parse(id);
-
-            command.Parameters.Add(idParam);
-
-            command.Prepare();
             try
-            {
+            { 
+                idParam.Value = Int32.Parse(id);
+
+                command.Parameters.Add(idParam);
+
+                command.Prepare();
+            
                 command.ExecuteNonQuery();
             }
             catch(Exception e)
@@ -364,14 +364,15 @@ namespace Someren
             SqlCommand command = new SqlCommand(sql, connection);
 
             SqlParameter idParam = new SqlParameter("@id", System.Data.SqlDbType.Int);
-            idParam.Value = Int32.Parse(id);
-
-
-            command.Parameters.Add(idParam);
-
-            command.Prepare();
             try
-            {
+            { 
+                idParam.Value = Int32.Parse(id);
+
+
+                command.Parameters.Add(idParam);
+
+                command.Prepare();
+            
                 command.ExecuteNonQuery();
             }
             catch (Exception e)
