@@ -96,19 +96,19 @@
             // dashboardToolStripMenuItem
             // 
             this.dashboardToolStripMenuItem.Name = "dashboardToolStripMenuItem";
-            this.dashboardToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.dashboardToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.dashboardToolStripMenuItem.Text = "Dashboard";
             this.dashboardToolStripMenuItem.Click += new System.EventHandler(this.dashboardToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(128, 6);
             // 
             // menuAfsluiten
             // 
             this.menuAfsluiten.Name = "menuAfsluiten";
-            this.menuAfsluiten.Size = new System.Drawing.Size(152, 22);
+            this.menuAfsluiten.Size = new System.Drawing.Size(131, 22);
             this.menuAfsluiten.Text = "Afsluiten";
             this.menuAfsluiten.Click += new System.EventHandler(this.toolStripMenuItem10_Click);
             // 
@@ -158,19 +158,19 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(151, 22);
             this.toolStripMenuItem2.Text = "Kamers";
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(151, 22);
             this.toolStripMenuItem3.Text = "Kamerindeling";
             // 
             // zoekKamersToolStripMenuItem
             // 
             this.zoekKamersToolStripMenuItem.Name = "zoekKamersToolStripMenuItem";
-            this.zoekKamersToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.zoekKamersToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.zoekKamersToolStripMenuItem.Text = "Zoek Kamers";
             // 
             // bardienstToolStripMenuItem
@@ -232,6 +232,7 @@
             this.roosterToolStripMenuItem.Name = "roosterToolStripMenuItem";
             this.roosterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.roosterToolStripMenuItem.Text = "Rooster";
+            this.roosterToolStripMenuItem.Click += new System.EventHandler(this.roosterToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 

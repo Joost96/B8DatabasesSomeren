@@ -102,6 +102,43 @@ namespace Someren
                 return id;
             }
         }
+        //Door Joost
+        public class RoosterItem
+        {
+            private int activiteit;
+            private Begeleider begeleider;
+            private DateTime datum;
+            private TimeSpan startTijd;
+            private TimeSpan eindTijd;
+            public RoosterItem(int activiteit, Begeleider begeleider, DateTime datum, TimeSpan startTijd, TimeSpan eindTijd)
+            {
+                this.activiteit = activiteit;
+                this.begeleider = begeleider;
+                this.datum = datum;
+                this.startTijd = startTijd;
+                this.eindTijd = eindTijd;
+            }
+            public int getActiviteit()
+            {
+                return activiteit;
+            }
+            public Begeleider getBegeleider()
+            {
+                return begeleider;
+            }
+            public DateTime getDatum()
+            {
+                return datum;
+            }
+            public TimeSpan getStartTijd()
+            {
+                return startTijd;
+            }
+            public TimeSpan getEindTijd()
+            {
+                return eindTijd;
+            }
+        }
 
         public class StudentList
         {

@@ -313,6 +313,44 @@ namespace Someren
         }
 
         // Made By: Davut Demir
+        // Selecteerd begeleider op id uit de database
+        public SomerenModel.Begeleider getBegeleiderById(int id)
+        {
+            SqlConnection connection = openConnectieDB();
+            SomerenModel.Begeleider begeleider = null;
+
+            StringBuilder sb = new StringBuilder();
+            // de query die zoekt welke begeleiders er zijn
+            sb.Append("SELECT naam ");
+            sb.Append("FROM dbo.B8_Docent ");
+            sb.Append("INNER JOIN dbo.B8_Begeleider ");
+            sb.Append("ON DocentId = id ");
+            sb.Append("Where DocentId = @id");
+
+            String sql = sb.ToString();
+
+            // connection maken met database
+            SqlCommand command = new SqlCommand(sql, connection);
+            SqlParameter idParam = new SqlParameter("@id", System.Data.SqlDbType.Int);
+            idParam.Value = id;
+
+            command.Parameters.Add(idParam);
+            command.Prepare();
+            SqlDataReader reader = command.ExecuteReader();
+
+            // leest alle data van de db tabellen op en vult een list hiermee
+            while (reader.Read())
+            {
+                string naam = reader.GetString(0);
+                begeleider = new SomerenModel.Begeleider(id, naam);
+            }
+            sluitConnectieDB(connection);
+
+            // de gevulde list wordt gereturnt
+            return begeleider;
+        }
+
+        // Made By: Davut Demir
         // voegt een nieuwe begeleider toe
         public void BegeleiderInsert(string id)
         {
@@ -380,6 +418,47 @@ namespace Someren
                 Console.Write("Verkeerde invoer, moet een getal zijn die een docent heeft.");
             }
             sluitConnectieDB(connection);
+        }
+        //door Joost
+        public List<SomerenModel.RoosterItem> getRoosterInfo(DateTime from, DateTime to)
+        {
+            SqlConnection connection = openConnectieDB();
+            List<SomerenModel.RoosterItem> rooster = new List<SomerenModel.RoosterItem>();
+
+            StringBuilder sb = new StringBuilder();
+            // schrijf hier een query om te zorgen dat er een lijst met studenten wordt getoond
+            sb.Append("SELECT Activiteit,Begeleider,Datum,tijdStart,tijdEind ");
+            sb.Append("FROM B8_Rooster ");
+            sb.Append("WHERE datum >= @dfrom AND datum <= @dto");
+
+            String sql = sb.ToString();
+
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            SqlParameter dfrom = new SqlParameter("@dfrom", System.Data.SqlDbType.DateTime);
+            SqlParameter dto = new SqlParameter("@dto", System.Data.SqlDbType.DateTime);
+            dfrom.Value = from;
+            dto.Value = to;
+            command.Parameters.Add(dfrom);
+            command.Parameters.Add(dto);
+
+            command.Prepare();
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                int activiteit = reader.GetInt32(0);
+                int begeleiderId = reader.GetInt32(1);
+                DateTime datum = reader.GetDateTime(2);
+                TimeSpan start = reader.GetTimeSpan(3);
+                TimeSpan eind = reader.GetTimeSpan(4);
+                SomerenModel.Begeleider begeleider = getBegeleiderById(begeleiderId);
+                SomerenModel.RoosterItem item = new SomerenModel.RoosterItem(activiteit, begeleider,
+                    datum, start, eind);
+                rooster.Add(item);
+            }
+
+            sluitConnectieDB(connection);
+            return rooster;
         }
     }
 }

@@ -301,5 +301,87 @@ namespace Someren
             db.BegeleiderDelete(txt_id.Text);
             begeleidersToolStripMenuItem.PerformClick();
         }
+        //gemaakt door Joost
+        private void roosterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            const int WIDTH = 490;
+            const int HEIGHT = 380;
+            const int HEADER_HEIGHT = 20;
+            const int AANTAL_DAGEN = 2;
+
+            TimeSpan startTijd = new TimeSpan(8, 0, 0);
+            TimeSpan eindTijd = new TimeSpan(20, 0, 0);
+            int totalMin = Convert.ToInt32((eindTijd - startTijd).TotalMinutes);
+            float minPixels = (HEIGHT - HEADER_HEIGHT) / (float)totalMin;
+
+            DateTime startDatum = new DateTime(2017, 4, 10);
+            DateTime eindDatum = new DateTime(2017, 4, 11);
+
+            //maak de picturebox
+            this.panel1.Controls.Clear();
+            this.groupBox1.Text = "Rooster";
+            PictureBox pictureBox = new PictureBox();
+            pictureBox.Image = new Bitmap(WIDTH + 1, HEIGHT + 1);
+            pictureBox.Size = new Size(WIDTH + 1, HEIGHT + 1);
+            using (Graphics g = Graphics.FromImage(pictureBox.Image))
+            {
+                // draw black background
+                g.Clear(Color.White);
+                //make coloms
+                for (int i = 0; i < AANTAL_DAGEN; i++)
+                {
+                    int xPosLine = WIDTH / AANTAL_DAGEN * (i + 1);
+                    g.DrawLine(Pens.Black, xPosLine, 0, xPosLine, HEIGHT);
+                    int xPosDag = WIDTH / AANTAL_DAGEN * i;
+                    Label dag = new Label();
+                    dag.Location = new Point(xPosDag + 10, 5);
+                    dag.Text = ((DayOfWeek)i + 1).ToString();
+                    dag.BackColor = Color.White;
+                    dag.AutoSize = true;
+                    this.panel1.Controls.Add(dag);
+                }
+
+                //add the rooster items
+                SomerenDB db = new SomerenDB();
+                List<SomerenModel.RoosterItem> rooster = db.getRoosterInfo(startDatum, eindDatum);
+                foreach (SomerenModel.RoosterItem item in rooster)
+                {
+                    Console.Write(item);
+                    int dag = Convert.ToInt32((item.getDatum() - startDatum).TotalDays);
+                    int start = Convert.ToInt32((item.getStartTijd() - startTijd).TotalMinutes);
+                    int duur = Convert.ToInt32((item.getEindTijd() - item.getStartTijd()).TotalMinutes);
+
+                    //bereken positie en groote
+                    Point pos = new Point((WIDTH / AANTAL_DAGEN * dag),
+                        Convert.ToInt32(start * minPixels) + HEADER_HEIGHT);
+                    Size size = new Size((WIDTH / AANTAL_DAGEN * (dag + 1)),
+                        Convert.ToInt32(duur * minPixels));
+                    Rectangle rectRItem = new Rectangle(pos, size);
+
+                    //teken de rectang;e
+                    g.FillRectangle(Brushes.Wheat, rectRItem);
+                    g.DrawRectangle(Pens.Black, rectRItem);
+
+                    Label info = new Label();
+                    info.Location = new Point(pos.X + 10, pos.Y + 5);
+                    //voeg de text toe
+                    info.Text = String.Format("{0} - {1} \n {2} \n {3}",
+                        item.getStartTijd(), item.getEindTijd(),
+                        item.getActiviteit(), item.getBegeleider().getNaam());
+
+                    info.BackColor = Color.Wheat;
+                    info.AutoSize = true;
+                    panel1.Controls.Add(info);
+                }
+
+                // make table
+                Rectangle table = new Rectangle(0, HEADER_HEIGHT, WIDTH, HEIGHT - HEADER_HEIGHT);
+                Rectangle Header = new Rectangle(0, 0, WIDTH, HEADER_HEIGHT);
+                g.DrawRectangle(Pens.Black, table);
+                g.DrawRectangle(Pens.Black, Header);
+            }
+            pictureBox1.Invalidate();
+            this.panel1.Controls.Add(pictureBox);
+        }
     }
 }
