@@ -44,6 +44,9 @@ namespace Someren
                 this.id = id;
                 this.naam = naam;
             }
+
+
+
             public void setNaam(string naamStudent)
             {
                 naam = naamStudent;
@@ -59,6 +62,13 @@ namespace Someren
                 return id;
             }
 
+        }
+
+        public class Begeleider : Docent
+        {
+            public Begeleider(int id, string naam) : base(id, naam)
+            {
+            }
         }
 
         // Made By: Davut

@@ -233,5 +233,66 @@ namespace Someren
             }
         }
 
+
+        //Made by: Davut
+        // laat alle begeleiders zien
+        // kan ook begeleiders toevoegen en verwijderen
+        private TextBox txt_id = new TextBox();
+
+        public void begeleidersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.panel1.Controls.Clear();
+            this.groupBox1.Text = "Begeleiders";
+            this.panel1.Controls.Add(SomerenUI.ShowBegeleiders());
+
+            // voeg een tekstveld zodat de gebruiker een ID kan invullen
+            this.panel1.Controls.Add(txt_id);
+            txt_id.Location = new Point(370, 180);
+            txt_id.Width = 125;
+
+            // Label voor het duidelijk maken van wat je kan doen
+            Label lbl_id = new Label();
+            lbl_id.Text = "Geef de ID van de docent/begeleider";
+            lbl_id.Location = new Point(350, 165);
+            lbl_id.Width = 200;
+            this.panel1.Controls.Add(lbl_id);
+
+            // button voor nieuwe begeleiders
+            Button nieuweBegeleider = new Button();
+            nieuweBegeleider.Text = "Nieuwe Begeleider";
+            nieuweBegeleider.Width = 125;
+            this.panel1.Controls.Add(nieuweBegeleider);
+            nieuweBegeleider.Location = new Point(300, 200);
+            nieuweBegeleider.Click += BegeleiderInsertEvent;
+
+            // nieuwe button voor verwijderen van een begeleider
+            Button begeleiderVerwijder = new Button();
+            begeleiderVerwijder.Text = "Begeleider Verwijderen";
+            begeleiderVerwijder.Width = 125;
+            this.panel1.Controls.Add(begeleiderVerwijder);
+            begeleiderVerwijder.Location = new Point(440, 200);
+            begeleiderVerwijder.Click += BegeleiderDeleteEvent;
+
+        }
+
+        // Made By: Davut Demir
+        // voert het proces van een nieuwe begeleider toevoegen uit
+        // ververst ook het scherm
+        public void BegeleiderInsertEvent(object sender, EventArgs e)
+        {
+            SomerenDB db = new SomerenDB();
+            db.BegeleiderInsert(txt_id.Text);
+            begeleidersToolStripMenuItem.PerformClick();
+        }
+
+        // Made By: Davut Demir
+        // voert het proces van een begeleider verwijderen uit
+        // ververst ook het scherm
+        public void BegeleiderDeleteEvent(object sender, EventArgs e)
+        {
+            SomerenDB db = new SomerenDB();
+            db.BegeleiderDelete(txt_id.Text);
+            begeleidersToolStripMenuItem.PerformClick();
+        }
     }
 }

@@ -102,6 +102,35 @@ namespace Someren
                 "omzet: {2:C2}", aantalKlanten, afzet, omzet);
         }
 
+        public static ListView ShowBegeleiders()
+        {
+            List<SomerenModel.Begeleider> bl = new List<SomerenModel.Begeleider>();
+            SomerenDB somerendb = new SomerenDB();
+
+            // hier halen we de drankjes op van de database
+            bl = somerendb.BegeleiderSelect();
+
+            ListView c = new ListView();
+            c.Height = 1000;
+            c.Width = 200;
+            c.View = View.Details;
+            c.Columns.Add("Begeleider Naam", 100, HorizontalAlignment.Left);
+            c.Columns.Add("Begeleider Id", 100, HorizontalAlignment.Left);
+
+
+            foreach (SomerenModel.Begeleider begeleider in bl)
+            {
+                string naam = begeleider.getNaam();
+                string id = begeleider.getId().ToString();
+                ListViewItem li = new ListViewItem(naam);
+                li.SubItems.Add(id, System.Drawing.Color.Black, System.Drawing.Color.Black, null);
+
+                c.Items.Add(li);
+            }
+
+            return c;
+        }
+
         public static Control addUILabel(string text)
         {
             Label l = new Label();

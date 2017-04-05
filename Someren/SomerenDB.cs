@@ -274,6 +274,111 @@ namespace Someren
 
             sluitConnectieDB(connection);
         }
-    
+        
+
+        // Made By: Davut Demir
+        // Selecteerd alle huidige begeleiders uit de database
+        public List<SomerenModel.Begeleider> BegeleiderSelect()
+        {
+            SqlConnection connection = openConnectieDB();
+            List<SomerenModel.Begeleider> Begeleider_lijst = new List<SomerenModel.Begeleider>();
+
+            StringBuilder sb = new StringBuilder();
+            // de query die zoekt welke begeleiders er zijn
+            sb.Append("SELECT DocentId, naam ");
+            sb.Append("FROM dbo.B8_Docent ");
+            sb.Append("INNER JOIN dbo.B8_Begeleider ");
+            sb.Append("ON DocentId = id ");
+            sb.Append("Where DocentId = id");
+
+            String sql = sb.ToString();
+
+            // connection maken met database
+            SqlCommand command = new SqlCommand(sql, connection);
+            command.Prepare();
+            SqlDataReader reader = command.ExecuteReader();
+
+            // leest alle data van de db tabellen op en vult een list hiermee
+            while (reader.Read())
+            {
+                int id = reader.GetInt32(0);
+                string naam = reader.GetString(1);
+                SomerenModel.Begeleider begeleider = new SomerenModel.Begeleider(id, naam);
+                Begeleider_lijst.Add(begeleider);
+            }
+            sluitConnectieDB(connection);
+
+            // de gevulde list wordt gereturnt
+            return Begeleider_lijst;
+        }
+
+        // Made By: Davut Demir
+        // voegt een nieuwe begeleider toe
+        public void BegeleiderInsert(string id)
+        {
+            SqlConnection connection = openConnectieDB();
+
+            StringBuilder sb = new StringBuilder();
+            // de query die een nieuwe begeleider toevoegd
+            sb.Append("INSERT INTO B8_Begeleider (DocentId) ");
+            sb.Append("VALUES (@id)");
+
+            String sql = sb.ToString();
+
+            // connection maken met database
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            SqlParameter idParam = new SqlParameter("@id", System.Data.SqlDbType.Int);
+
+            idParam.Value = Int32.Parse(id);
+
+            command.Parameters.Add(idParam);
+
+            command.Prepare();
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch(Exception e)
+            {
+                Console.Write("Verkeerde invoer, moet een getal zijn die een docent heeft.");
+            }
+            sluitConnectieDB(connection);
+        }
+
+        // Made By: Davut Demir
+        // verwijderd een begeleider van de database
+        public void BegeleiderDelete(string id)
+        {
+            SqlConnection connection = openConnectieDB();
+
+            StringBuilder sb = new StringBuilder();
+            // de query die de begeleider verwijderd uit de database
+            // de docent blijft wel een docent
+            sb.Append("DELETE FROM B8_Begeleider ");
+            sb.Append("WHERE DocentId = @id");
+
+            String sql = sb.ToString();
+
+            // connection maken met database
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            SqlParameter idParam = new SqlParameter("@id", System.Data.SqlDbType.Int);
+            idParam.Value = Int32.Parse(id);
+
+
+            command.Parameters.Add(idParam);
+
+            command.Prepare();
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.Write("Verkeerde invoer, moet een getal zijn die een docent heeft.");
+            }
+            sluitConnectieDB(connection);
+        }
     }
 }
