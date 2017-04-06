@@ -205,7 +205,7 @@ namespace Someren
 
             this.panel1.Controls.Add(studentenList);
             this.panel1.Controls.Add(drankenList);
-            
+
 
             Button afrekenen = new Button();
             afrekenen.Text = "Afrekenen";
@@ -383,5 +383,207 @@ namespace Someren
             pictureBox1.Invalidate();
             this.panel1.Controls.Add(pictureBox);
         }
+
+        //Door Juan
+        //06-04-17, opdracht 6, variant A
+        private void activiteitenlijstToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.panel1.Controls.Clear();
+            this.groupBox1.Text = "Activiteitenlijst";
+            activiteit = SomerenUI.showActiviteiten();
+            this.panel1.Controls.Add(activiteit);
+
+            activiteit.HideSelection = false;
+            activiteit.FullRowSelect = true;
+
+            Button btn_activiteitToevoegen = new Button();
+            btn_activiteitToevoegen.Text = "Activiteit toevoegen";
+            btn_activiteitToevoegen.Width = 150;
+            this.panel1.Controls.Add(btn_activiteitToevoegen);
+            btn_activiteitToevoegen.Location = new Point(410, 30);
+
+            btn_activiteitToevoegen.Click += toevoegenEvent;
+
+            Button btn_updateActiviteit = new Button();
+            btn_updateActiviteit.Text = "Activiteit wijzigen";
+            btn_updateActiviteit.Width = 150;
+            this.panel1.Controls.Add(btn_updateActiviteit);
+            btn_updateActiviteit.Location = new Point(410, 70);
+
+
+            btn_updateActiviteit.Click += wijzigenEvent;
+
+            Button btn_deleteActiviteit = new Button();
+            btn_deleteActiviteit.Text = "Activiteit verwijderenS";
+            btn_deleteActiviteit.Width = 150;
+            this.panel1.Controls.Add(btn_deleteActiviteit);
+            btn_deleteActiviteit.Location = new Point(410, 110);
+
+            btn_deleteActiviteit.Click += deleteEvent;
+        }
+
+        private TextBox tb_naamActiviteit = new TextBox();
+        private TextBox tb_aantalStudenten = new TextBox();
+        private TextBox tb_aantalBegeleiders = new TextBox();
+
+        private TextBox tbw_naamActiviteit = new TextBox();
+        private TextBox tbw_aantalStudenten = new TextBox();
+        private TextBox tbw_aantalBegeleiders = new TextBox();
+
+
+        private void toevoegenEvent(object sender, EventArgs e)
+        {
+            this.panel1.Controls.Clear();
+            this.groupBox1.Text = "Nieuwe activiteit toevoegen";
+
+            //LABEL Naam
+            Label l_naamActiviteit = new Label();
+            this.panel1.Controls.Add(l_naamActiviteit);
+            l_naamActiviteit.Text = "Naam activiteit";
+            l_naamActiviteit.Location = new Point(10, 20);
+            //TEXTBOX Naam
+            tb_naamActiviteit = new TextBox();
+            this.panel1.Controls.Add(tb_naamActiviteit);
+            tb_naamActiviteit.Location = new Point(10, 50);
+
+            //LABEL Aantel studenten
+            Label l_aantalStudenten = new Label();
+            this.panel1.Controls.Add(l_aantalStudenten);
+            l_aantalStudenten.Text = "Aantal studenten";
+            l_aantalStudenten.Location = new Point(10, 80);
+            //TEXTBOX Aantal studenten
+            tb_aantalStudenten = new TextBox();
+            this.panel1.Controls.Add(tb_aantalStudenten);
+            tb_aantalStudenten.Location = new Point(10, 110);
+
+            //LABEL Aantal begeleiders
+            Label l_aantalBegeleiders = new Label();
+            this.panel1.Controls.Add(l_aantalBegeleiders);
+            l_aantalBegeleiders.Text = "Aantal begeleiders";
+            l_aantalBegeleiders.Location = new Point(10, 140);
+            //TEXTBOX Aantal begeleiders
+            tb_aantalBegeleiders = new TextBox();
+            this.panel1.Controls.Add(tb_aantalBegeleiders);
+            tb_aantalBegeleiders.Location = new Point(10, 170);
+
+            Button btn_add = new Button();
+            btn_add.Text = "Activiteit toevoegen";
+            btn_add.Width = 150;
+            this.panel1.Controls.Add(btn_add);
+            btn_add.Location = new Point(410, 30);
+
+            btn_add.Click += addEvent;
+        }
+
+        private void addEvent(object sender, EventArgs e)
+        {
+            string omschrijving = tb_naamActiviteit.Text;
+
+            int aStudenten;
+            Int32.TryParse(tb_aantalStudenten.Text, out aStudenten);
+
+            int aBegeleiders;
+            Int32.TryParse(tb_aantalBegeleiders.Text, out aBegeleiders);
+
+            SomerenDB somerenb = new SomerenDB();
+            somerenb.DB_toevoegenActiviteit(omschrijving, aStudenten, aBegeleiders);
+
+            activiteitenlijstToolStripMenuItem.PerformClick();
+        }
+
+        private ListView activiteit;
+        private SomerenModel.Activiteit huidigeBewerking;
+
+        private void wijzigenEvent(object sender, EventArgs e)
+        {
+            this.panel1.Controls.Clear();
+            this.groupBox1.Text = "Activiteit wijzigen";
+
+            //LABEL Naam
+            Label l_naamActiviteit = new Label();
+            this.panel1.Controls.Add(l_naamActiviteit);
+            l_naamActiviteit.Text = "Naam activiteit";
+            l_naamActiviteit.Location = new Point(10, 20);
+            //TEXTBOX Naam
+            tbw_naamActiviteit = new TextBox();
+            this.panel1.Controls.Add(tbw_naamActiviteit);
+            tbw_naamActiviteit.Location = new Point(10, 50);
+
+            //LABEL Aantel studenten
+            Label l_aantalStudenten = new Label();
+            this.panel1.Controls.Add(l_aantalStudenten);
+            l_aantalStudenten.Text = "Aantal studenten";
+            l_aantalStudenten.Location = new Point(10, 80);
+            //TEXTBOX Aantal studenten
+            tbw_aantalStudenten = new TextBox();
+            this.panel1.Controls.Add(tbw_aantalStudenten);
+            tbw_aantalStudenten.Location = new Point(10, 110);
+
+            //LABEL Aantal begeleiders
+            Label l_aantalBegeleiders = new Label();
+            this.panel1.Controls.Add(l_aantalBegeleiders);
+            l_aantalBegeleiders.Text = "Aantal begeleiders";
+            l_aantalBegeleiders.Location = new Point(10, 140);
+            //TEXTBOX Aantal begeleiders
+            tbw_aantalBegeleiders = new TextBox();
+            this.panel1.Controls.Add(tbw_aantalBegeleiders);
+            tbw_aantalBegeleiders.Location = new Point(10, 170);
+
+            Button btn_wijzig = new Button();
+            btn_wijzig.Text = "Activiteit Wijzigen";
+            btn_wijzig.Width = 150;
+            this.panel1.Controls.Add(btn_wijzig);
+            btn_wijzig.Location = new Point(410, 30);
+
+            btn_wijzig.Click += wijzig;
+
+            foreach (ListViewItem sitem in activiteit.SelectedItems)
+            {
+                huidigeBewerking = (SomerenModel.Activiteit)sitem.Tag;
+            }
+
+            tbw_aantalBegeleiders.Text = huidigeBewerking.getABegeleiders().ToString();
+            tbw_aantalStudenten.Text = huidigeBewerking.getAStudenten().ToString();
+            tbw_naamActiviteit.Text = huidigeBewerking.getOmschrijving();
+
+        }
+
+        private void wijzig(object sender, EventArgs e)
+        {
+
+            string omschrijving = tbw_naamActiviteit.Text;
+
+            int aStudenten;
+            Int32.TryParse(tbw_aantalStudenten.Text, out aStudenten);
+
+            int aBegeleiders;
+            Int32.TryParse(tbw_aantalBegeleiders.Text, out aBegeleiders);
+
+            SomerenDB somerenb = new SomerenDB();
+            somerenb.DB_wijzigActiviteit(huidigeBewerking.getActiviteitId(), omschrijving, aStudenten, aBegeleiders);
+
+            activiteitenlijstToolStripMenuItem.PerformClick();
+        }
+
+        private void deleteEvent(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Weet u zeker dat u de geselecteerde activiteit wilt verwijderen??", "Verwijderen", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
+
+            foreach (ListViewItem sitem in activiteit.SelectedItems)
+            {
+                SomerenModel.Activiteit activiteit = (SomerenModel.Activiteit)sitem.Tag;
+
+                SomerenDB somerenDB = new SomerenDB();
+                somerenDB.DB_deleteActiviteit(activiteit.getActiviteitId());
+            }
+
+            activiteitenlijstToolStripMenuItem.PerformClick();
+        }
+
+
     }
 }

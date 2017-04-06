@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using System.Windows.Forms;
+
 
 namespace Someren
 {
@@ -246,10 +248,10 @@ namespace Someren
             SqlConnection connection = openConnectieDB();
 
             StringBuilder sb = new StringBuilder();
-           
+
             sb.Append("INSERT INTO [dbo].[B8_Verkopen] ([student] ,[datum] ,[drankId] ,[aantal])");
             sb.Append(" VALUES (@student, @datum, @drankId, @aantal)");
-         
+
             String sql = sb.ToString();
 
             SqlCommand command = new SqlCommand(sql, connection);
@@ -274,7 +276,7 @@ namespace Someren
 
             sluitConnectieDB(connection);
         }
-        
+
 
         // Made By: Davut Demir
         // Selecteerd alle huidige begeleiders uit de database
@@ -368,16 +370,16 @@ namespace Someren
 
             SqlParameter idParam = new SqlParameter("@id", System.Data.SqlDbType.Int);
             try
-            { 
+            {
                 idParam.Value = Int32.Parse(id);
 
                 command.Parameters.Add(idParam);
 
                 command.Prepare();
-            
+
                 command.ExecuteNonQuery();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.Write("Verkeerde invoer, moet een getal zijn die een docent heeft.");
             }
@@ -403,14 +405,14 @@ namespace Someren
 
             SqlParameter idParam = new SqlParameter("@id", System.Data.SqlDbType.Int);
             try
-            { 
+            {
                 idParam.Value = Int32.Parse(id);
 
 
                 command.Parameters.Add(idParam);
 
                 command.Prepare();
-            
+
                 command.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -459,6 +461,141 @@ namespace Someren
 
             sluitConnectieDB(connection);
             return rooster;
+        }
+
+        //Door Juan
+        //06-04-17, opdracht 6, variant A
+        public List<SomerenModel.Activiteit> DB_getActiviteit()
+        {
+            SqlConnection connection = openConnectieDB();
+            List<SomerenModel.Activiteit> activiteitenLijst = new List<SomerenModel.Activiteit>();
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append("SELECT id, Omschrijving, aantalStudenten, aantalBegeleiders ");
+            sb.Append("FROM dbo.B8_Activiteit");
+            String sql = sb.ToString();
+
+            SqlCommand command = new SqlCommand(sql, connection);
+            command.Prepare();
+            SqlDataReader reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                int id = reader.GetInt32(0);
+                string omschrijving = reader.GetString(1);
+                int aantalStudenten = reader.GetInt32(2);
+                int aantalBegeleiders = reader.GetInt32(3);
+                SomerenModel.Activiteit activiteiten = new SomerenModel.Activiteit(id, omschrijving, aantalStudenten, aantalBegeleiders);
+                activiteitenLijst.Add(activiteiten);
+            }
+            sluitConnectieDB(connection);
+
+            return activiteitenLijst;
+        }
+
+        public void DB_toevoegenActiviteit(string omschrijving, int aStudenten, int aBegeleiders)
+        {
+            SqlConnection connection = openConnectieDB();
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("INSERT INTO [dbo].[B8_Activiteit] ([Omschrijving] ,[aantalStudenten] ,[aantalBegeleiders])");
+            sb.Append(" VALUES (@oms, @stud, @beg)");
+
+            String sql = sb.ToString();
+
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            // SqlParameter idParam = new SqlParameter("@id", System.Data.SqlDbType.Int);
+            SqlParameter omsParam = new SqlParameter("@oms", System.Data.SqlDbType.NVarChar, 50);
+            SqlParameter studParam = new SqlParameter("@stud", System.Data.SqlDbType.Int);
+            SqlParameter begParam = new SqlParameter("@beg", System.Data.SqlDbType.Int);
+
+            omsParam.Value = omschrijving;
+            studParam.Value = aStudenten;
+            begParam.Value = aBegeleiders;
+
+
+            command.Parameters.Add(omsParam);
+            command.Parameters.Add(studParam);
+            command.Parameters.Add(begParam);
+
+            command.Prepare();
+            command.ExecuteNonQuery();
+
+            sluitConnectieDB(connection);
+
+        }
+
+        public void DB_deleteActiviteit(int id)
+        {
+            SqlConnection connection = openConnectieDB();
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("DELETE FROM [dbo].[B8_Activiteit] ");
+            sb.Append("WHERE id = @id ");
+            //sb.Append(" ON DELETE CASCADE");
+
+            String sql = sb.ToString();
+
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            SqlParameter idParam = new SqlParameter("@id", System.Data.SqlDbType.Int);
+
+            idParam.Value = id;
+
+            command.Parameters.Add(idParam);
+
+            command.Prepare();
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+
+            catch (Exception e)
+            {
+                MessageBox.Show("Could not delete, used in Rooster");
+            }
+
+            sluitConnectieDB(connection);
+        }
+
+        public void DB_wijzigActiviteit(int id, string omschrijving, int aStudenten, int aBegeleiders)
+        {
+
+            SqlConnection connection = openConnectieDB();
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("UPDATE [dbo].[B8_Activiteit] ");
+            sb.Append("SET omschrijving = @oms, aantalStudenten = @stud, aantalBegeleiders = @beg ");
+            sb.Append("WHERE id = @id");
+
+            String sql = sb.ToString();
+
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            // SqlParameter idParam = new SqlParameter("@id", System.Data.SqlDbType.Int);
+            SqlParameter idParam = new SqlParameter("@id", System.Data.SqlDbType.Int);
+            SqlParameter omsParam = new SqlParameter("@oms", System.Data.SqlDbType.NVarChar, 50);
+            SqlParameter studParam = new SqlParameter("@stud", System.Data.SqlDbType.Int);
+            SqlParameter begParam = new SqlParameter("@beg", System.Data.SqlDbType.Int);
+
+            idParam.Value = id;
+            omsParam.Value = omschrijving;
+            studParam.Value = aStudenten;
+            begParam.Value = aBegeleiders;
+
+            command.Parameters.Add(idParam);
+            command.Parameters.Add(omsParam);
+            command.Parameters.Add(studParam);
+            command.Parameters.Add(begParam);
+
+            command.Prepare();
+            command.ExecuteNonQuery();
+
+            sluitConnectieDB(connection);
         }
     }
 }

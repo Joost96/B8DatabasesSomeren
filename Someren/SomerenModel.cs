@@ -154,5 +154,43 @@ namespace Someren
                 return sl;
             }
         }
+
+        //Door Juan
+        //06-04-17, opdracht 6, variant A
+        public class Activiteit
+        {
+            string omschrijving;
+            int id;
+            int aStudenten;
+            int aBegeleiders;
+
+            public Activiteit(int id, string omschrijving, int aStudenten, int aBegeleiders)
+            {
+                this.id = id;
+                this.omschrijving = omschrijving;
+                this.aStudenten = aStudenten;
+                this.aBegeleiders = aBegeleiders;
+            }
+
+            public string getOmschrijving()
+            {
+                return omschrijving;
+            }
+
+            public int getActiviteitId()
+            {
+                return id;
+            }
+
+            public int getAStudenten()
+            {
+                return aStudenten;
+            }
+
+            public int getABegeleiders()
+            {
+                return aBegeleiders;
+            }
+        }
     }
 }

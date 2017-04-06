@@ -20,13 +20,13 @@ namespace Someren
             c.Width = 80;
             c.View = View.Details;
             c.Columns.Add("Studenten", 80, HorizontalAlignment.Left);
-            
+
 
             foreach (SomerenModel.Student student in sl)
             {
                 ListViewItem li = new ListViewItem(student.getNaam());
                 li.Tag = student;
-               //// li.SubItems.Add(student.getId().ToString());
+                //// li.SubItems.Add(student.getId().ToString());
                 c.Items.Add(li);
             }
             return c;
@@ -136,6 +136,34 @@ namespace Someren
             Label l = new Label();
             l.Text = text;
             return l;
+        }
+
+        //Door Juan
+        //06-04-17, opdracht 6, variant A
+        public static ListView showActiviteiten()
+        {
+            List<SomerenModel.Activiteit> a1 = new List<SomerenModel.Activiteit>();
+            SomerenDB somerendb = new SomerenDB();
+            a1 = somerendb.DB_getActiviteit();
+
+            ListView c = new ListView();
+            c.Height = 900;
+            c.Width = 400;
+            c.View = View.Details;
+
+            c.Columns.Add("Activiteiten", 100, HorizontalAlignment.Left);
+            c.Columns.Add("Aantal studenten", 200, HorizontalAlignment.Left);
+            c.Columns.Add("Aantal begeleiders", 300, HorizontalAlignment.Left);
+
+            foreach (SomerenModel.Activiteit activiteit in a1)
+            {
+                ListViewItem li = new ListViewItem(activiteit.getOmschrijving());
+                li.Tag = activiteit;
+                li.SubItems.Add(activiteit.getAStudenten().ToString());
+                li.SubItems.Add(activiteit.getABegeleiders().ToString());
+                c.Items.Add(li);
+            }
+            return c;
         }
     }
 }
