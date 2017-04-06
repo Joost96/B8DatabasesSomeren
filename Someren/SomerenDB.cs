@@ -448,12 +448,13 @@ namespace Someren
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                int activiteit = reader.GetInt32(0);
+                int activiteitId = reader.GetInt32(0);
                 int begeleiderId = reader.GetInt32(1);
                 DateTime datum = reader.GetDateTime(2);
                 TimeSpan start = reader.GetTimeSpan(3);
                 TimeSpan eind = reader.GetTimeSpan(4);
                 SomerenModel.Begeleider begeleider = getBegeleiderById(begeleiderId);
+                SomerenModel.Activiteit activiteit = getActiviteitById(activiteitId);
                 SomerenModel.RoosterItem item = new SomerenModel.RoosterItem(activiteit, begeleider,
                     datum, start, eind);
                 rooster.Add(item);
@@ -491,6 +492,39 @@ namespace Someren
             sluitConnectieDB(connection);
 
             return activiteitenLijst;
+        }
+
+        public SomerenModel.Activiteit getActiviteitById(int id)
+        {
+            SqlConnection connection = openConnectieDB();
+            SomerenModel.Activiteit activiteit = null;
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append("SELECT Omschrijving, aantalStudenten, aantalBegeleiders ");
+            sb.Append("FROM dbo.B8_Activiteit ");
+            sb.Append("WHERE id = @id ");
+            String sql = sb.ToString();
+
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            SqlParameter idParam = new SqlParameter("@id", System.Data.SqlDbType.Int);
+
+            idParam.Value = id;
+
+            command.Parameters.Add(idParam);
+            command.Prepare();
+            SqlDataReader reader = command.ExecuteReader();
+
+            if (reader.Read())
+            {
+                string omschrijving = reader.GetString(0);
+                int aantalStudenten = reader.GetInt32(1);
+                int aantalBegeleiders = reader.GetInt32(2);
+                activiteit = new SomerenModel.Activiteit(id, omschrijving, aantalStudenten, aantalBegeleiders);
+            }
+            sluitConnectieDB(connection);
+
+            return activiteit;
         }
 
         public void DB_toevoegenActiviteit(string omschrijving, int aStudenten, int aBegeleiders)

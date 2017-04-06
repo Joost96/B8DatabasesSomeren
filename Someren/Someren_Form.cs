@@ -309,8 +309,8 @@ namespace Someren
             const int HEADER_HEIGHT = 20;
             const int AANTAL_DAGEN = 2;
 
-            TimeSpan startTijd = new TimeSpan(8, 0, 0);
-            TimeSpan eindTijd = new TimeSpan(20, 0, 0);
+            TimeSpan startTijd = new TimeSpan(7, 0, 0);
+            TimeSpan eindTijd = new TimeSpan(22, 0, 0);
             int totalMin = Convert.ToInt32((eindTijd - startTijd).TotalMinutes);
             float minPixels = (HEIGHT - HEADER_HEIGHT) / (float)totalMin;
 
@@ -367,7 +367,7 @@ namespace Someren
                     //voeg de text toe
                     info.Text = String.Format("{0} - {1} \n {2} \n {3}",
                         item.getStartTijd(), item.getEindTijd(),
-                        item.getActiviteit(), item.getBegeleider().getNaam());
+                        item.getActiviteit().getOmschrijving(), item.getBegeleider().getNaam());
 
                     info.BackColor = Color.Wheat;
                     info.AutoSize = true;
@@ -414,7 +414,7 @@ namespace Someren
             btn_updateActiviteit.Click += wijzigenEvent;
 
             Button btn_deleteActiviteit = new Button();
-            btn_deleteActiviteit.Text = "Activiteit verwijderenS";
+            btn_deleteActiviteit.Text = "Activiteit verwijderen";
             btn_deleteActiviteit.Width = 150;
             this.panel1.Controls.Add(btn_deleteActiviteit);
             btn_deleteActiviteit.Location = new Point(410, 110);

@@ -218,7 +218,7 @@
             // 
             this.activiteitenlijstToolStripMenuItem.Name = "activiteitenlijstToolStripMenuItem";
             this.activiteitenlijstToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.activiteitenlijstToolStripMenuItem.Text = "s";
+            this.activiteitenlijstToolStripMenuItem.Text = "Activiteiten";
             this.activiteitenlijstToolStripMenuItem.Click += new System.EventHandler(this.activiteitenlijstToolStripMenuItem_Click);
             // 
             // begeleidersToolStripMenuItem

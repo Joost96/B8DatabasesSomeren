@@ -105,12 +105,12 @@ namespace Someren
         //Door Joost
         public class RoosterItem
         {
-            private int activiteit;
+            private Activiteit activiteit;
             private Begeleider begeleider;
             private DateTime datum;
             private TimeSpan startTijd;
             private TimeSpan eindTijd;
-            public RoosterItem(int activiteit, Begeleider begeleider, DateTime datum, TimeSpan startTijd, TimeSpan eindTijd)
+            public RoosterItem(Activiteit activiteit, Begeleider begeleider, DateTime datum, TimeSpan startTijd, TimeSpan eindTijd)
             {
                 this.activiteit = activiteit;
                 this.begeleider = begeleider;
@@ -118,7 +118,7 @@ namespace Someren
                 this.startTijd = startTijd;
                 this.eindTijd = eindTijd;
             }
-            public int getActiviteit()
+            public Activiteit getActiviteit()
             {
                 return activiteit;
             }
